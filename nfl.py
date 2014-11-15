@@ -18,6 +18,17 @@ def convert(src):
  f.close()
  jsonf.close()
 
+#getPlayerStats will be used to compare multiple players, so the result
+#of each function call must be appended to a list of previous function calls
+#HAVE TO CALL WITH Abbreviated name, eg "M.Lynch","rushing_lngtd"
+def getPlayerStats(plyr,stat): 
+	game = nflgame.games(2012,week=[2,3,4,6])
+	players = nflgame.combine(game)
+	player = players.name(plyr)
+	playerStats = player.stats
+	if stat in playerStats:
+		print 'stat: ',stat,' value = ',playerStats[stat]
+
 games = nflgame.games(2012)
 players = nflgame.combine_game_stats(games)
 for p in players.rushing().sort('rushing_yds').limit(5):
@@ -26,6 +37,7 @@ for p in players.rushing().sort('rushing_yds').limit(5):
 
 players.passing().sort('passing_yds').limit(30).csv('2012_passing.csv')
 
+getPlayerStats('M.Lynch','rushing_lngtd')
 
 convert('2012_passing.csv')
 
