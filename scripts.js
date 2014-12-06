@@ -12,5 +12,16 @@ $(document).ready(function(){
     		x_accessor: "passing_yds",
 
 
-		})})
-	})
+		})});
+    $(function(){
+   // player_list = ["Peyton Manning", "Eli Manning", "Archie Manning"]
+    $.get("player_list.txt", function(data){
+        player_list = data.split(",");
+        jQuery( "#player_input" ).autocomplete({
+        source: player_list
+        });
+    });
+
+});
+	});
+

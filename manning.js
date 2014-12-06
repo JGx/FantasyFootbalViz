@@ -3,6 +3,8 @@ $(document).ready(function(){
 })
 
 
+
+
 function initManningGraph(){
     d3.json("ManningPassing.json",function(data){
         data_graphic({
