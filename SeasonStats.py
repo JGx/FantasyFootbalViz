@@ -26,8 +26,8 @@ class PlayerStats:
 
 	def getSeasonStats(self, plyr, stat, season):   
 		data = []
-		if season == 2014:
-			print "HERE"
+		# if season == 2014:
+		# 	print "HERE"
 		for x in range(1, 18):
 			game = nflgame.games(season,week=x)
 			if game == []:
@@ -44,24 +44,28 @@ class PlayerStats:
 						week_obj[x] = playerStats[x]
 					week_obj['active'] = 'true'
 					data.append(week_obj)
-					if season == 2014:
-						print week_obj
+					# if season == 2014:
+					# 	print week_obj
 				else:
 					data.append({'week':str(x),stat:str(playerStats[stat]), 'active':'true'})
 		return data
 
-def getAllPlayerData(full_name):
+def getAllPlayerData(full_name, abbrev_name):
 	names = full_name.split(' ')
-	nflgameid = '.'.join((names[0][0],names[1]))
+	# nflgameid = '.'.join((names[0][0],names[1]))
 	plyrstats = PlayerStats()
-	plyrstats.addSeasons(nflgameid,'all', 2009, 2014)
+	plyrstats.addSeasons(abbrev_name,'all', 2009, 2014)
 	plyrstats.write('player_data/' + str('_'.join(names)) + ".json")
 
-
-
-# for player in players:
-# 	getAllPlayerData(player)
-getAllPlayerData("Peyton Manning")
+# text_file = open("player_list.txt", "r")
+json_data=open('playersHash.json')
+data = json.load(json_data)
+print data
+for player in data:
+	print "Importing: " + player[0]
+  	getAllPlayerData(player[0], player[1])
+   	print "Finished Importing: " + player[0]
+#getAllPlayerData("Peyton Manning")
 
 
 
