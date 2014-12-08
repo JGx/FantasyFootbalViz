@@ -61,10 +61,17 @@ def getAllPlayerData(full_name, abbrev_name):
 json_data=open('playersHash.json')
 data = json.load(json_data)
 print data
+isLastPlayer = False
 for player in data:
-	print "Importing: " + player[0]
-  	getAllPlayerData(player[0], player[1])
-   	print "Finished Importing: " + player[0]
+	if isLastPlayer == True:
+		print "Importing: " + player[0]
+	  	getAllPlayerData(player[0], player[1])
+	   	print "Finished Importing: " + player[0]
+	else:
+		print player[0] + " exists"
+	if player[0].split(' ')[0] == "Arnaz":
+		print "*******Starting Point*********"
+		isLastPlayer = True
 #getAllPlayerData("Peyton Manning")
 
 
