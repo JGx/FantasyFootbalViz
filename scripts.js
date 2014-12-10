@@ -1,5 +1,7 @@
 var graphCreated = false;
 var yearsList = [];
+var currQuery1 = "";
+var currQuery2 = "";
 
 
 
@@ -16,6 +18,9 @@ $(document).ready(function(){
           yearsList = [];
           for (y=years[0]; y<years[1]+1; y++){
              yearsList.push(y);
+          }
+          if(graphCreated){
+            newGraphYears();
           }
           console.log("yearslist is",yearsList);
         },
@@ -43,7 +48,6 @@ $(document).ready(function(){
     })});
 **/
 $(function(){
-   // player_list = ["Peyton Manning", "Eli Manning", "Archie Manning"]
    $.get("list_with_pos.txt", function(data){
     player_list = data.split(",");
     jQuery( "#player_input_one" ).autocomplete({
@@ -64,7 +68,6 @@ function getDataPoints(player_data, p_code, years, data){
     for(var week_data in player_data[p_code][year]){
       var x_val = parseInt(player_data[p_code][year][week_data]['week']);
       if(x_val == 13 && year == 2014){
-        console.log(player_data[p_code][year][week_data]['passing_yds']);
       }
       x_val = x_val + (17 * index);
       var y_val = player_data[p_code][year][week_data]['active'] == 'true' ? player_data[p_code][year][week_data]['passing_yds'] : null;
@@ -176,7 +179,6 @@ function add2Graph(q, num){
   
 
     p_code = Object.keys(player_data)[0]
-    console.log(p_code);
     var series = [];
     var max_y  = getDataPoints(player_data, p_code, yearsList, series);
 
@@ -208,20 +210,20 @@ function add2Graph(q, num){
     var svg = d3.select("#first > svg > g")
 
     if(num == 1){
-      console.log("yo");
+      console.log("NUM 1");
       $("#first > svg > g .line").remove();
       $("#first > svg > g .one.dot").remove();
       svg.append("path")
       .attr("class", "line")
       .attr("d", line2(series));
 
-        svg.selectAll(".one .dot")
-        .data(series.filter(function(d) { return d.y; }))
-        .enter().append("circle")
-        .attr("class", "one dot")
-        .attr("cx", line2.x())
-        .attr("cy", line2.y())
-        .attr("r", 3.5);
+      svg.selectAll(".one .dot")
+      .data(series.filter(function(d) { return d.y; }))
+      .enter().append("circle")
+      .attr("class", "one dot")
+      .attr("cx", line2.x())
+      .attr("cy", line2.y())
+      .attr("r", 3.5);
       
     }
     else if(num == 2){
@@ -245,16 +247,16 @@ function add2Graph(q, num){
 
 
 $("#go_two").click(function(){
-  console.log("here");
-  if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
-  else { query = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
+  console.log("Player 2 click");
+  if ($("#pos").val() == "all") { currQuery2 = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
+  else { currQuery2 = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
 
   $("#second").empty();
   if(!graphCreated){
-    newGraph(query,2);
+    newGraph(currQuery2,2);
   }
   else{
-    add2Graph(query, 2);
+    add2Graph(currQuery2, 2);
   }
 });
 
@@ -265,17 +267,15 @@ $("#go_one").click(function(){
 
     get_fan_data();
 
-  console.log("here");
-  if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
-  else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
+  if ($("#pos").val() == "all") { currQuery1 = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
+  else { currQuery1 = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
 
 
   $("#first").empty();
-  if(!graphCreated){
-    newGraph(query,1);
-  }
-  else{
-    add2Graph(query, 1);
+  newGraph(currQuery1,1);
+  if(graphCreated && currQuery2 != ""){
+    console.log("IN THE HOUSE");
+    add2Graph(currQuery2, 2);
   }
 });
 
@@ -313,6 +313,14 @@ $("#pos").change(function(){
 });
 
 
+function newGraphYears(){
+  $("#first").empty();
+  newGraph(currQuery1,1);
+  if(currQuery2 != ""){
+    add2Graph(currQuery2, 2);
+  }
+}
+
 function get_fan_data(){
     fan_data = [];
     if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
@@ -320,18 +328,18 @@ function get_fan_data(){
     d3.json(query,function(player_data){
         d3.json("points_lookup.json", function(lookup_data){
            // fan_data[2009] = []
-           console.log(lookup_data);
+           // console.log(lookup_data);
            my_week = 0;
             for (var week in player_data[p_code][2013]){
                 if(player_data[p_code][2013][week]['week'] > 0 && player_data[p_code][2013][week]['week'] < 18){
                 fan_data[my_week] = 0;
-                console.log(player_data[p_code][2013][week]);
+                // console.log(player_data[p_code][2013][week]);
                 //fan_data[player_data[p_code][2009][week]['week']] = 0;
                 for (var cat in player_data[p_code][2013][week]){
-                    console.log(player_data[p_code][2013][week]['week']);
-                    console.log(lookup_data);
+                    // console.log(player_data[p_code][2013][week]['week']);
+                    // console.log(lookup_data);
                     if (lookup_data[cat] != null && cat != 'week'){
-                        console.log(cat, player_data[p_code][2013][week][cat], parseFloat(lookup_data[cat]));
+                        // console.log(cat, player_data[p_code][2013][week][cat], parseFloat(lookup_data[cat]));
 
                         fan_data[my_week] += (lookup_data[cat] * player_data[p_code][2013][week][cat]);
                     }
@@ -344,7 +352,7 @@ function get_fan_data(){
       //          }
                 my_week++;
             }
-            console.log(fan_data);
+            // console.log(fan_data);
         })
     });
 }
