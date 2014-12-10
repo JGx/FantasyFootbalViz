@@ -140,7 +140,9 @@ $("#go_two").click(function(){
 current_data = null;
 $("#go_one").click(function(){
     console.log("here");
-    query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json";
+    if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
+        else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
+    
    // console.log("query");
    // $.get(query, function(data) {
      //   current_data = data;
