@@ -38,13 +38,20 @@ $(function(){
 
 function getDataPoints(player_data, p_code, years, data){
   var max_y = 0;
-  for(var week_data in player_data[p_code][2009]){
-    var x_val = parseInt(player_data[p_code][2009][week_data]['week']);
-    var y_val = player_data[p_code][2009][week_data]['active'] == 'true' ? player_data[p_code][2009][week_data]['passing_yds'] : null;
-    if(y_val > max_y){
-      max_y = y_val;
+  for(var index in years){
+    year = years[index];
+    for(var week_data in player_data[p_code][year]){
+      var x_val = parseInt(player_data[p_code][year][week_data]['week']);
+      if(x_val == 13 && year == 2014){
+        console.log(player_data[p_code][year][week_data]['passing_yds']);
+      }
+      x_val = x_val + (17 * index);
+      var y_val = player_data[p_code][year][week_data]['active'] == 'true' ? player_data[p_code][year][week_data]['passing_yds'] : null;
+      if(y_val > max_y){
+        max_y = y_val;
+      }
+      data.push({x:x_val, y:y_val})
     }
-    data.push({x:x_val, y:y_val})
   }
   return max_y;
 }
@@ -59,14 +66,16 @@ function newGraph(q, num){
 
     p_code = Object.keys(player_data)[0]
     var data = [];
-    var max_y  = getDataPoints(player_data, p_code, 2009, data);
-
+    var max_y  = getDataPoints(player_data, p_code, [2009, 2010,2011,2012,2013, 2014], data);
+    console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('.container').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
+
+
     var x = d3.scale.linear()
-    .domain([1,17])
+    .domain([1,102])
     .range([0, width]);
 
     var y = d3.scale.linear()
@@ -147,7 +156,7 @@ function add2Graph(q, num){
     p_code = Object.keys(player_data)[0]
     console.log(p_code);
     var series = [];
-    var max_y  = getDataPoints(player_data, p_code, 2009, series);
+    var max_y  = getDataPoints(player_data, p_code, [2009, 2010,2011,2012,2013, 2014], series);
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('.container').width() - margin.left - margin.right,
@@ -155,7 +164,7 @@ function add2Graph(q, num){
 
 
     var x = d3.scale.linear()
-    .domain([1,17])
+    .domain([1,102])
     .range([0, width]);
 
     var y = d3.scale.linear()
