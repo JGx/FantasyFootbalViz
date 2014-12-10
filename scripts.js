@@ -1,10 +1,31 @@
 var graphCreated = false;
-
+var yearsList = [];
 
 
 
 $(document).ready(function(){
+
+  $(function() {
+      $( "#slider" ).slider({
+        min:2009,
+        max:2014,
+        range:true,
+        change: function(event, ui){
+
+          var years = $("#slider").slider("option","values");
+          yearsList = [];
+          for (y=years[0]; y<years[1]+1; y++){
+             yearsList.push(y);
+          }
+          console.log("yearslist is",yearsList);
+        },
+      });
+      //set value to be 2009-2014
+      $("#slider").slider("option","values",[2009,2014]);
+    });
+
   $.get("playersHash.json",function(data){ player_lookup = data; });
+
   /**
     d3.json("2012_passing.json",function(data){
     data_graphic({
@@ -60,13 +81,13 @@ function newGraph(q, num){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
-    var years = $("#slider").slider("option","values");
-    console.log("YEARS IS",years);
+      
+    console.log("YEARS IS",yearsList);
     console.log(p_name);
 
     p_code = Object.keys(player_data)[0]
     var data = [];
-    var max_y  = getDataPoints(player_data, p_code, [2009, 2010,2011,2012,2013, 2014], data);
+    var max_y  = getDataPoints(player_data, p_code, yearsList, data);
     console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('.container').width() - margin.left - margin.right,
@@ -156,7 +177,7 @@ function add2Graph(q, num){
     p_code = Object.keys(player_data)[0]
     console.log(p_code);
     var series = [];
-    var max_y  = getDataPoints(player_data, p_code, [2009, 2010,2011,2012,2013, 2014], series);
+    var max_y  = getDataPoints(player_data, p_code, yearsList, series);
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('.container').width() - margin.left - margin.right,
