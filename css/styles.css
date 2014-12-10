@@ -1,40 +1,63 @@
-  .ui-autocomplete {
-    max-height: 200px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
+ 
 
+/*Player Select Styles*/
+
+#player_select{
+	padding: 10px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #ccc;
+}
+/*#player_select .btn{
+	padding: 3px 12px 3px 12px;
+}*/
+/*#go_one{
+	content:"\f046";
+}
+*/.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+
+
+
+/* GRAPH STYLES*/
 .axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
 }
 
 .area {
-  fill: lightsteelblue;
+	fill: lightsteelblue;
 }
 .area2 {
- fill: red;
+	fill: red;
 }
 
 .line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+	fill: none;
+	stroke: steelblue;
+	stroke-width: 1.5px;
 }
 .line2 {
-  fill: none;
-  stroke: red;
-  stroke-width: 1.5px;
+	fill: none;
+	stroke: red;
+	stroke-width: 1.5px;
 }
 .dot {
-  fill: white;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+	fill: white;
+	stroke: steelblue;
+	stroke-width: 1.5px;
 }
 .dot.two {
-  fill: white;
-  stroke: red;
-  stroke-width: 1.5px;
+	fill: white;
+	stroke: red;
+	stroke-width: 1.5px;
 }
+
+
+
+
+

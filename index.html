@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-		<title>Footbal</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="css/styles.css">
-		<link rel="stylesheet" type="text/css" href="metrics-graphics-1.0.0/css/metricsgraphics.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-		<script src="metrics-graphics-1.0.0/js/metricsgraphics.min.js"></script>
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<title>Footbal</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="metrics-graphics-1.0.0/css/metricsgraphics.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Optional: Include the jQuery library -->
+<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="metrics-graphics-1.0.0/js/metricsgraphics.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 </head>
 <body>
-	<input id="player_input_one" type="text" />
-
-	<input id="go_one" type="button" />
-
-	<input id="player_input_two" type="text" />
-	<input id="go_two" type="button" />
-
-<select id="pos">
-  <option value="all">ALL</option>
-  <option value="qb">QB</option>
-  <option value="rb">RB</option>
-  <option value="wr">WR</option>
-  <option value="te">TE</option>
-  <option value="k">K</option>
-  <option value="d/st">D/ST</option>
-</select>
 
 	<div class="container">
+		<div id = "player_select" class ="form-inline">
+		
+			<input id="player_input_one" type="text" class="form-control"/>
+
+			<button id="go_one" type="submit"  class="btn">
+                <i class="fa fa-area-chart "></i>
+            </button>
+
+			<input id="player_input_two" type="text" class="form-control"/>
+			<button id="go_two" type="submit"  class="btn">
+                <i class="fa fa-area-chart "></i>
+            </button>
+
+			<select id="pos">
+				<option value="all">ALL</option>
+				<option value="qb">QB</option>
+				<option value="rb">RB</option>
+				<option value="wr">WR</option>
+				<option value="te">TE</option>
+				<option value="k">K</option>
+				<option value="d/st">D/ST</option>
+			</select>
+		
+		</div>
 		<div id="first" class="">
 
 			<div id="legend"></div>
@@ -48,7 +60,7 @@
 
 
 </body>
-	<script src="manning.js"></script>
-	<script src="scripts.js"></script>
-		
+<script src="manning.js"></script>
+<script src="scripts.js"></script>
+
 </html>
