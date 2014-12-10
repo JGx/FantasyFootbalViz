@@ -125,7 +125,8 @@ $(document).ready(function(){
 }
 $("#go_two").click(function(){
     console.log("here");
-    query = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json";
+    if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
+        else { query = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
    // console.log("query");
    // $.get(query, function(data) {
      //   current_data = data;
