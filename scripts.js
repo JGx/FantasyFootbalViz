@@ -18,58 +18,25 @@ $(document).ready(function(){
 **/
     $(function(){
    // player_list = ["Peyton Manning", "Eli Manning", "Archie Manning"]
-    $.get("player_list.txt", function(data){
+    $.get("list_with_pos.txt", function(data){
         player_list = data.split(",");
-        jQuery( "#player_input" ).autocomplete({
+        jQuery( "#player_input_one" ).autocomplete({
         source: player_list
         });
+        jQuery("#player_input_two").autocomplete({
+            source: player_list
+        });
+        })
     });
 
 });
-	});
 
-current_data = null;
-$("#go").click(function(){
-    console.log("here");
-    query = "player_data/" + $("#player_input").val().replace(" ","").split(" ").join("_") + ".json";
-   // console.log("query");
-   // $.get(query, function(data) {
-     //   current_data = data;
-       // console.log(data);
 
-        function initGraph(){
-            d3.json(query,function(data){
-                console.log(data);
-             data_graphic({
-          title: "Peyton Manning Passing Yards",
-          description: "This graphic shows passing yard by week in 2009",
-          data: [data['P.Manning'][2009],data['P.Manning'][2010],data['P.Manning'][2011],data['P.Manning'][2012]],
-          legend: ['2009','2010','2011','2012'],
-          legend_target: '#first #legend',
-          width: 800,
-          height: 500,
-          target: '#first #chart',
-          y_accessor: "passing_yds",
-          x_accessor: "week",
-          //markers: [{'week':'6', 'label': "Bye"}],
-            })
-        /*data_graphic({
-            chart_type : "line",
-          title: "P.Manning Passing Yards",
-          description: "This graphic shows passing yard by week in 2009",
-          data: data['P.Manning'][2009],
-          width: 800,
-          height: 500,
-          target: '#second',
-          markers: [{'week':'6', 'label': "Bye"}],
-          y_accessor: "passing_yds",
-          x_accessor: "week",
-      })*/
-        })
-        }
-    function newGraph(q){
+    function newGraph(q, num){
   d3.json(q,function(player_data){
-    p_name = $("#player_input").val();
+    if (num == 1) p_name = $("#player_input_one").val();
+    else p_name = $("#player_input_two").val();
+    console.log(p_name);
     p_code = Object.keys(player_data)[0]
     console.log(p_code);
     var series =[];
@@ -121,8 +88,9 @@ $("#go").click(function(){
     .x(line.x())
     .y1(line.y())
     .y0(y(0));
-
-    var svg = d3.select("#second").append("svg")
+    if (num == 1) target = "#first"
+        else target = "#second"
+    var svg = d3.select(target).append("svg")
     .datum(data)
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -155,10 +123,62 @@ $("#go").click(function(){
     .attr("r", 3.5);
   })
 }
-
-
-
+$("#go_two").click(function(){
+    console.log("here");
+    query = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json";
+   // console.log("query");
+   // $.get(query, function(data) {
+     //   current_data = data;
+       // console.log(data)
         //initGraph();
         $("#second").empty();
-        newGraph(query);
+        newGraph(query,2);
     });
+
+
+
+current_data = null;
+$("#go_one").click(function(){
+    console.log("here");
+    query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json";
+   // console.log("query");
+   // $.get(query, function(data) {
+     //   current_data = data;
+       // console.log(data)
+        //initGraph();
+        $("#first").empty();
+        newGraph(query,1);
+    });
+
+
+$("#pos").change(function(){
+    target = "";
+    switch($("#pos").val()){
+        case "all":
+            target = "list_with_pos.txt";
+            break;
+        case "qb":
+            target = "qbs.txt";
+            break;
+        case "rb":
+            target = "rbs.txt";
+            break;
+        case "wr":
+            target = "wrs.txt";
+            break
+        case "te":
+            target = "tes.txt";
+            break;
+
+    }
+    $.get(target, function(data){
+        player_list = data.split(",");
+        jQuery( "#player_input_one" ).autocomplete({
+        source: player_list
+        });
+        jQuery("#player_input_two").autocomplete({
+            source: player_list
+        });
+    });
+});
+
