@@ -93,7 +93,7 @@ function newGraph(q, num){
     var max_y  = getDataPoints(player_data, p_code, yearsList, data);
     console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = $('.container').width() - margin.left - margin.right,
+    width = $('#first').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 
@@ -189,7 +189,7 @@ function add2Graph(q, num){
     var max_y  = getDataPoints(player_data, p_code, yearsList, series);
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = $('.container').width() - margin.left - margin.right,
+    width = $('#first').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 
