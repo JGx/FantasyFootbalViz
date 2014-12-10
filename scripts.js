@@ -151,7 +151,7 @@ function newGraph(q, num){
     .attr("class", "line")
     .attr("d", line);
 
-    svg.selectAll(".one .dot")
+    svg.selectAll(".dot")
     .data(data.filter(function(d) { return d.y; }))
     .enter().append("circle")
     .attr("class", "one dot")
@@ -163,9 +163,15 @@ function newGraph(q, num){
       console.log(d3.mouse(this)[0]);
       var x0 = Math.round(x.invert(d3.mouse(this)[0]));
       console.log("x0 is",x0);
-      pcode = Object.keys(player_data)[0],
-      i = player_data[pcode][2009][x0-1]['passing_yds'];
+      pcode = Object.keys(player_data)[0];
+      //need to know exact year
+      var startingYear = yearsList[0];
+      var addYear = Math.floor( Math.abs(x0 -1)  / 17);
+      var actualYear = startingYear + addYear;
+      console.log("Year is ",actualYear);
+      i = player_data[pcode][actualYear][((x0-1) % 17)]['passing_yds'];
       console.log("passing yards is",i);
+      
     });
 
     graphCreated = true;
