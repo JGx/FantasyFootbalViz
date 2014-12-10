@@ -1,20 +1,20 @@
 $(document).ready(function(){
     $.get("playersHash.json",function(data){ player_lookup = data; });
-	/**
+  /**
     d3.json("2012_passing.json",function(data){
-		data_graphic({
-			chart_type : "bar",
-    		title: "Football",
-   			description: "This graphic shows a time-series of downloads.",
-    		data: data,
-    		width: 600,
-    		height: 500,
-    		target: '#chart_here',
-    		y_accessor: "name",
-    		x_accessor: "passing_yds",
+    data_graphic({
+      chart_type : "bar",
+        title: "Football",
+        description: "This graphic shows a time-series of downloads.",
+        data: data,
+        width: 600,
+        height: 500,
+        target: '#chart_here',
+        y_accessor: "name",
+        x_accessor: "passing_yds",
 
 
-		})});
+    })});
 **/
     $(function(){
    // player_list = ["Peyton Manning", "Eli Manning", "Archie Manning"]
@@ -58,6 +58,7 @@ $(document).ready(function(){
     console.log(data);
     data = series;
 
+
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('.container').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -97,9 +98,9 @@ $(document).ready(function(){
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg.append("path")
-    .attr("class", "area")
-    .attr("d", area);
+    // svg.append("path")
+    // .attr("class", "area")
+    // .attr("d", area);
 
     svg.append("g")
     .attr("class", "x axis")
@@ -132,6 +133,71 @@ $(document).ready(function(){
                   });
   })
 }
+
+
+function add2Graph(q){
+  d3.json(q,function(player_data){
+
+      p_name = $("#player_input_two").val();
+
+      p_code = Object.keys(player_data)[0]
+      console.log(p_code);
+      var series =[];
+      var max_y = 0;
+      for(var week_data in player_data[p_code][2009]){
+        var x_val = parseInt(player_data[p_code][2009][week_data]['week']);
+        var y_val = player_data[p_code][2009][week_data]['active'] == 'true' ? player_data[p_code][2009][week_data]['passing_yds'] : null;
+        if(y_val > max_y){
+          max_y = y_val;
+        }
+        series.push({x:x_val, y:y_val})
+      }
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = $('.container').width() - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+
+    var x = d3.scale.linear()
+      .domain([1,17])
+      .range([0, width]);
+
+    var y = d3.scale.linear()
+    .domain([0,Math.ceil(max_y/50)*50])
+    .range([height, 0]);
+
+      var line2 = d3.svg.line()
+        .defined(function(d) { return d.y != null; })
+        .x(function(d) { return x(d.x); })
+        .y(function(d) { return y(d.y); });
+
+      var area2 = d3.svg.area()
+      .defined(line2.defined())
+      .x(line2.x())
+      .y1(line2.y())
+      .y0(y(0));
+
+
+      var svg = d3.select("#first > svg > g")
+      svg.append("path")
+        .attr("class", "line2")
+        .attr("d", line2(series));
+
+      //   svg.append("path")
+      // .attr("class", "area2")
+      // .attr("d", area2);
+
+      svg.selectAll(".two .dot")
+        .data(series.filter(function(d) { return d.y; }))
+        .enter().append("circle")
+        .attr("class", "two dot")
+        .attr("cx", line2.x())
+        .attr("cy", line2.y())
+        .attr("r", 3.5);
+    })
+}
+
+
 $("#go_two").click(function(){
     console.log("here");
     if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
@@ -142,7 +208,8 @@ $("#go_two").click(function(){
        // console.log(data)
         //initGraph();
         $("#second").empty();
-        newGraph(query,2);
+        add2Graph(query);
+       // newGraph(query,2);
     });
 
 
@@ -193,4 +260,3 @@ $("#pos").change(function(){
         });
     });
 });
-

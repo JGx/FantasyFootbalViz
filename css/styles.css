@@ -4,7 +4,7 @@
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
   }
-  
+
 .axis path, .axis line {
   fill: none;
   stroke: #000;
@@ -14,15 +14,27 @@
 .area {
   fill: lightsteelblue;
 }
+.area2 {
+ fill: red;
+}
 
 .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
-
+.line2 {
+  fill: none;
+  stroke: red;
+  stroke-width: 1.5px;
+}
 .dot {
   fill: white;
   stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.dot.two {
+  fill: white;
+  stroke: red;
   stroke-width: 1.5px;
 }
