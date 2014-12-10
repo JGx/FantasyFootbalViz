@@ -120,7 +120,16 @@ $(document).ready(function(){
     .attr("class", "dot")
     .attr("cx", line.x())
     .attr("cy", line.y())
-    .attr("r", 3.5);
+    .attr("r", 3.5)
+    .on("mouseover",function(){
+                    console.log("mouse over point");
+                    console.log(d3.mouse(this)[0]);
+                    var x0 = Math.round(x.invert(d3.mouse(this)[0]));
+                    console.log("x0 is",x0);
+                    pcode = Object.keys(player_data)[0],
+                    i = player_data[pcode][2009][x0-1]['passing_yds'];
+                    console.log("passing yards is",i);
+                  });
   })
 }
 $("#go_two").click(function(){
