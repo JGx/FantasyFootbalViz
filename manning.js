@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//initManningGraph();
-  testNewGraph();
+ // testNewGraph();
 })
 
 
