@@ -16,25 +16,33 @@
 	<script src="metrics-graphics-1.0.0/js/metricsgraphics.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
+	<script>
+  	$(function() {
+    	$( "#slider" ).slider({
+    		min:2009,
+    		max:2014,
+    		range:true
+    	});
+  	});
+  </script>
 </head>
 <body>
 
 	<div class="container">
 		<div id = "player_select" class ="form-inline">
 		
-			<input id="player_input_one" type="text" class="form-control"/>
+			<input id="player_input_one" type="text" class="form-control" placeholder="Player 1"/>
 
 			<button id="go_one" type="submit"  class="btn">
                 <i class="fa fa-area-chart "></i>
             </button>
 
-			<input id="player_input_two" type="text" class="form-control"/>
+			<input id="player_input_two" type="text" class="form-control" placeholder="Player 2"/>
 			<button id="go_two" type="submit"  class="btn">
                 <i class="fa fa-area-chart "></i>
             </button>
 
-			<select id="pos">
+			<select id="pos" class="form-control">
 				<option value="all">ALL</option>
 				<option value="qb">QB</option>
 				<option value="rb">RB</option>
@@ -43,8 +51,21 @@
 				<option value="k">K</option>
 				<option value="d/st">D/ST</option>
 			</select>
-		
+			<div id="slider" class="form-control">
+				<div id="sliderTicks">
+					<ul>
+						<li>2009</li>
+						<li>2010</li>
+						<li>2011</li>
+						<li>2012</li>
+						<li>2013</li>
+						<li>2014</li>
+					</ul>
+				</div>
+			</div>
 		</div>
+
+		
 		<div id="first" class="">
 
 			<div id="legend"></div>

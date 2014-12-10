@@ -1,4 +1,4 @@
- 
+
 
 /*Player Select Styles*/
 
@@ -57,7 +57,27 @@
 	stroke-width: 1.5px;
 }
 
+#slider {
+  width:200px;
+  margin-left: 20px;
+}
 
+#sliderTicks{
+  width:250px;
+  margin-left:-25px;
+  margin-top: 8px;
+  height:20px;
+  font-size: 10pt;
+}
 
+#sliderTicks ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#sliderTicks li{
+  display: inline;
+}
 
 

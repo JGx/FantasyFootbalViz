@@ -36,6 +36,8 @@ $(document).ready(function(){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
+    var years = $("#slider").slider("option","values");
+    console.log("YEARS IS",years);
     console.log(p_name);
     p_code = Object.keys(player_data)[0]
     console.log(p_code);
