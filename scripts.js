@@ -31,7 +31,7 @@ $(document).ready(function(){
 
 });
 
-
+fan_data = {}
     function newGraph(q, num){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
@@ -39,6 +39,8 @@ $(document).ready(function(){
     console.log(p_name);
     p_code = Object.keys(player_data)[0]
     console.log(p_code);
+   
+
     var series =[];
     var max_y = 0;
     for(var week_data in player_data[p_code][2009]){
@@ -216,6 +218,7 @@ $("#go_two").click(function(){
 
 current_data = null;
 $("#go_one").click(function(){
+    get_fan_data();
     console.log("here");
     if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
         else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
@@ -260,3 +263,41 @@ $("#pos").change(function(){
         });
     });
 });
+
+
+function get_fan_data(){
+    fan_data = [];
+    if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
+    else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
+    d3.json(query,function(player_data){
+        d3.json("points_lookup.json", function(lookup_data){
+           // fan_data[2009] = []
+           console.log(lookup_data);
+           my_week = 0;
+            for (var week in player_data[p_code][2013]){
+                if(player_data[p_code][2013][week]['week'] > 0 && player_data[p_code][2013][week]['week'] < 18){
+                fan_data[my_week] = 0;
+                console.log(player_data[p_code][2013][week]);
+                //fan_data[player_data[p_code][2009][week]['week']] = 0;
+                for (var cat in player_data[p_code][2013][week]){
+                    console.log(player_data[p_code][2013][week]['week']);
+                    console.log(lookup_data);
+                    if (lookup_data[cat] != null && cat != 'week'){
+                        console.log(cat, player_data[p_code][2013][week][cat], parseFloat(lookup_data[cat]));
+
+                        fan_data[my_week] += (lookup_data[cat] * player_data[p_code][2013][week][cat]);
+                    }
+                }
+            }
+
+//                fan_data[2009][week] = 0;
+  //              for (var cat in Object.keys(player_data[p_code][2009][week])) {
+    //                fan_data['2009'][week] += (player_data[p_code][2009][week][cat] * lookup_data[cat]);
+      //          }
+                my_week++;
+            }
+            console.log(fan_data);
+        })
+    });
+}
+

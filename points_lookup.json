@@ -1,0 +1,17 @@
+{
+	"passing_yds" : ".04",
+	"passing_tds" : 4,
+	"passings_ints" : -2,
+	"passing_twoptm" : 2,
+	"rushing_tds" : 6,
+	"rushing_yds" : ".1",
+	"rushing_twoptm" : 2,
+	"receiving_tds" : 6,
+	"receiving_yds" : ".1",
+	"receiving_twoptm" : 2,
+	"kicking_xpmade" : 1,
+	"kicking_xpmissed" : -1,
+	"kicking_fgm" : 5,
+	"kicking_fga" : -1,
+	"week" : 0
+}
