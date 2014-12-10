@@ -80,4 +80,11 @@
   display: inline;
 }
 
+#sidebar{
+	border: 1px solid #ddd;
+	height: 400px;
+}
+#sidebar h4{
+	border-bottom: 1px solid #ddd;
+}
 

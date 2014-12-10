@@ -97,9 +97,9 @@ function newGraph(q, num){
     height = 500 - margin.top - margin.bottom;
 
 
-
+    console.log("YOOOOO", data[data.length -1].x);
     var x = d3.scale.linear()
-    .domain([1,102])
+    .domain([1,data[data.length -1].x])
     .range([0, width]);
 
     var y = d3.scale.linear()
