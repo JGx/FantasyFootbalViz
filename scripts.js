@@ -5,6 +5,12 @@ var currQuery2 = "";
 
 
 
+//D3 Graph variables
+var svg;
+var line;
+var area;
+
+
 $(document).ready(function(){
 
   $(function() {
@@ -22,7 +28,7 @@ $(document).ready(function(){
           if(graphCreated){
             newGraphYears();
           }
-          console.log("yearslist is",yearsList);
+          // console.log("yearslist is",yearsList);
         },
       });
       //set value to be 2009-2014
@@ -84,23 +90,22 @@ function newGraph(q, num){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
-      
-    console.log("YEARS IS",yearsList);
-    console.log(p_name);
 
     p_code = Object.keys(player_data)[0]
     var data = [];
     var max_y  = getDataPoints(player_data, p_code, yearsList, data);
-    console.log(data);
+    // console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
+    console.log("New Graph Width: " + width);
+    console.log("New Graph Height: " + height);
 
 
-    console.log("YOOOOO", data[data.length -1].x);
+    // console.log("YOOOOO", data[data.length -1].x);
     var x = d3.scale.linear()
     .domain([1,data[data.length -1].x])
-    .range([0, width]);
+    .range([10, width]);
 
     var y = d3.scale.linear()
     .domain([0,Math.ceil(max_y/50)*50])
@@ -114,25 +119,35 @@ function newGraph(q, num){
     .scale(y)
     .orient("left");
 
-    var line = d3.svg.line()
+    var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      var week_num = d.x % 17;
+      if(d.x <= 17){week_num = d.x;}
+      return "<strong>Week:</strong> <span style='color:red'>" + week_num + "</span>";
+    })
+
+    line = d3.svg.line()
     .defined(function(d) { return d.y != null; })
     .x(function(d) { return x(d.x); })
     .y(function(d) { return y(d.y); });
 
-    var area = d3.svg.area()
+    area = d3.svg.area()
     .defined(line.defined())
     .x(line.x())
     .y1(line.y())
     .y0(y(0));
-    target = "#first"
+    target = "#first";  
 
-    var svg = d3.select(target).append("svg")
+    svg = d3.select(target).append("svg")
       .datum(data)
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    svg.call(tip);
     // svg.append("path")
     // .attr("class", "area")
     // .attr("d", area);
@@ -158,32 +173,37 @@ function newGraph(q, num){
     .attr("cx", line.x())
     .attr("cy", line.y())
     .attr("r", 3.5)
-    .on("mouseover",function(){
-      console.log("mouse over point");
-      console.log(d3.mouse(this)[0]);
-      var x0 = Math.round(x.invert(d3.mouse(this)[0]));
-      console.log("x0 is",x0);
-      pcode = Object.keys(player_data)[0];
-      //need to know exact year
-      var startingYear = yearsList[0];
-      var addYear = Math.floor( Math.abs(x0 -1)  / 17);
-      var actualYear = startingYear + addYear;
-      console.log("Year is ",actualYear);
-      i = player_data[pcode][actualYear][((x0-1) % 17)]['passing_yds'];
-      console.log("passing yards is",i);
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide);
+    // .on("mouseover",function(){
+    //   // console.log("mouse over point");
+    //   // console.log(d3.mouse(this)[0]);
+    //   var x0 = Math.round(x.invert(d3.mouse(this)[0]));
+    //   // console.log("x0 is",x0);
+    //   pcode = Object.keys(player_data)[0];
+    //   //need to know exact year
+    //   var startingYear = yearsList[0];
+    //   var addYear = Math.floor( Math.abs(x0 -1)  / 17);
+    //   var actualYear = startingYear + addYear;
+    //   // console.log("Year is ",actualYear);
+    //   i = player_data[pcode][actualYear][((x0-1) % 17)]['passing_yds'];
+    //   // console.log("passing yards is",i);
       
-    });
+    // });
 
     graphCreated = true;
+    addLegend(1, p_code);
   })
 }
 
 
 
 function add2Graph(q, num){
+  // console.log("ADD 2 GRAPH");
   d3.json(q,function(player_data){
   
-
+    if (num == 1) p_name = $("#player_input_one").val();
+    else p_name = $("#player_input_two").val();
     p_code = Object.keys(player_data)[0]
     var series = [];
     var max_y  = getDataPoints(player_data, p_code, yearsList, series);
@@ -191,44 +211,45 @@ function add2Graph(q, num){
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
+    console.log("Add2Graph Width: " + width);
+    console.log("Add2Graph Height: " + height);
+
+    // var x = d3.scale.linear()
+    // .domain([1,102])
+    // .range([0, width]);
+
+    // var y = d3.scale.linear()
+    // .domain([0,Math.ceil(max_y/50)*50])
+    // .range([height, 0]);
+
+    // var line2 = d3.svg.line()
+    // .defined(function(d) { return d.y != null; })
+    // .x(function(d) { return x(d.x); })
+    // .y(function(d) { return y(d.y); });
+
+    // var area2 = d3.svg.area()
+    // .defined(line2.defined())
+    // .x(line2.x())
+    // .y1(line2.y())
+    // .y0(y(0));
 
 
-    var x = d3.scale.linear()
-    .domain([1,102])
-    .range([0, width]);
-
-    var y = d3.scale.linear()
-    .domain([0,Math.ceil(max_y/50)*50])
-    .range([height, 0]);
-
-    var line2 = d3.svg.line()
-    .defined(function(d) { return d.y != null; })
-    .x(function(d) { return x(d.x); })
-    .y(function(d) { return y(d.y); });
-
-    var area2 = d3.svg.area()
-    .defined(line2.defined())
-    .x(line2.x())
-    .y1(line2.y())
-    .y0(y(0));
-
-
-    var svg = d3.select("#first > svg > g")
+ //   var svg = d3.select("#first > svg > g")
 
     if(num == 1){
-      console.log("NUM 1");
+      // console.log("NUM 1");
       $("#first > svg > g .line").remove();
       $("#first > svg > g .one.dot").remove();
       svg.append("path")
       .attr("class", "line")
-      .attr("d", line2(series));
+      .attr("d", line(series));
 
       svg.selectAll(".one .dot")
       .data(series.filter(function(d) { return d.y; }))
       .enter().append("circle")
       .attr("class", "one dot")
-      .attr("cx", line2.x())
-      .attr("cy", line2.y())
+      .attr("cx", line.x())
+      .attr("cy", line.y())
       .attr("r", 3.5);
       
     }
@@ -237,23 +258,24 @@ function add2Graph(q, num){
       $("#first > svg > g .two.dot").remove();
       svg.append("path")
       .attr("class", "line2")
-      .attr("d", line2(series));
+      .attr("d", line(series));
 
         svg.selectAll(".two .dot")
         .data(series.filter(function(d) { return d.y; }))
         .enter().append("circle")
         .attr("class", "two dot")
-        .attr("cx", line2.x())
-        .attr("cy", line2.y())
+        .attr("cx", line.x())
+        .attr("cy", line.y())
         .attr("r", 3.5);
-      
+            addLegend(2, p_code);
     }
+
   })
 }
 
 
 $("#go_two").click(function(){
-  console.log("Player 2 click");
+  // console.log("Player 2 click");
   if ($("#pos").val() == "all") { currQuery2 = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
   else { currQuery2 = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
 
@@ -280,7 +302,7 @@ $("#go_one").click(function(){
   $("#first").empty();
   newGraph(currQuery1,1);
   if(graphCreated && currQuery2 != ""){
-    console.log("IN THE HOUSE");
+    // console.log("IN THE HOUSE");
     add2Graph(currQuery2, 2);
   }
 });
@@ -318,6 +340,13 @@ $("#pos").change(function(){
   });
 });
 
+
+function addLegend(line_num, name){
+  var target;
+  if(line_num == 1){target = $('#sidebar #key1')}
+  else if(line_num == 2){target = $('#sidebar #key2')}
+  target.html('<p>'+name +'</p>');
+}
 
 function newGraphYears(){
   $("#first").empty();

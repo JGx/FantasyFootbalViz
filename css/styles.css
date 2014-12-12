@@ -38,7 +38,7 @@
 
 .line {
 	fill: none;
-	stroke: steelblue;
+	stroke: #4682B4;
 	stroke-width: 1.5px;
 }
 .line2 {
@@ -48,7 +48,7 @@
 }
 .dot {
 	fill: white;
-	stroke: steelblue;
+	stroke: #4682B4;
 	stroke-width: 1.5px;
 }
 .dot.two {
@@ -87,4 +87,63 @@
 #sidebar h4{
 	border-bottom: 1px solid #ddd;
 }
+
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.legendary{
+	text-align: center;
+	padding: 5px 0 5px 0;
+}
+.legendary p{
+	display: inline-block;
+}
+.legendary p:before{
+	background-color: #000;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+    max-width: 30px;
+    right: 0.5em;
+    margin-left: -50%;
+    padding: 2px 0px;
+}
+#key1 p:before{background-color: #4682B4;}
+
+#key2 p:before{background-color: red;}
+
+
+
+
+
 

@@ -22,17 +22,27 @@
 	<div class="container">
 		<div id = "player_select" class ="form-inline">
 		
+		<div class="input-group">
 			<input id="player_input_one" type="text" class="form-control" placeholder="Player 1"/>
-
-			<button id="go_one" type="submit"  class="btn">
+			<span class="input-group-btn">
+			<button id="go_one" type="submit"  class="btn btn-primary">
                 <i class="fa fa-area-chart "></i>
             </button>
+        </span>
+           </div>
 
-			<input id="player_input_two" type="text" class="form-control" placeholder="Player 2"/>
-			<button id="go_two" type="submit"  class="btn">
-                <i class="fa fa-area-chart "></i>
-            </button>
+            <div class="input-group">
+            	<input id="player_input_two" type="text" class="form-control" placeholder="Player 2"/>
+            	  <span class="input-group-btn">
+            	<button id="go_two" type="submit"  class="btn btn-danger">
+            		<i class="fa fa-area-chart "></i>
+            	</button>
+            </span>
 
+            </div>
+            <!-- -->
+
+            <!-- -->
 			<select id="pos" class="form-control">
 				<option value="all">ALL</option>
 				<option value="qb">QB</option>
@@ -63,6 +73,8 @@
 		</div>
 		<div id="sidebar" class="col-xs-12 col-md-2" >
 			<h4>Sidebar</h4>
+			<div id="key1" class="legendary"></div>
+			<div id="key2" class="legendary"></div>
 		</div>
 		<div id="chart_here"></div>
 		<div id="second" class="">
@@ -74,6 +86,7 @@
 
 
 </body>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="manning.js"></script>
 <script src="scripts.js"></script>
 
