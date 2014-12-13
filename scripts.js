@@ -8,7 +8,7 @@ var currQuery2 = "";
 var svg;
 var line;
 var area;
-
+var chart_w;
 
 $(document).ready(function(){
 
@@ -221,6 +221,7 @@ function newGraph(q, num, q2){
 
     graphCreated = true;
     addLegend(1, p_code);
+    chart_w = $("#first").width();
 
     //if a second line is needed
     if(typeof q2 === "undefined"){ 
@@ -237,7 +238,6 @@ function newGraph(q, num, q2){
 
 
 function add2Graph(q, num){
-  // console.log("ADD 2 GRAPH");
   d3.json(q,function(player_data){
   
     if (num == 1) p_name = $("#player_input_one").val();
@@ -249,33 +249,8 @@ function add2Graph(q, num){
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
-    console.log("Add2Graph Width: " + width);
-    console.log("Add2Graph Height: " + height);
-
-    // var x = d3.scale.linear()
-    // .domain([1,102])
-    // .range([0, width]);
-
-    // var y = d3.scale.linear()
-    // .domain([0,Math.ceil(max_y/50)*50])
-    // .range([height, 0]);
-
-    // var line2 = d3.svg.line()
-    // .defined(function(d) { return d.y != null; })
-    // .x(function(d) { return x(d.x); })
-    // .y(function(d) { return y(d.y); });
-
-    // var area2 = d3.svg.area()
-    // .defined(line2.defined())
-    // .x(line2.x())
-    // .y1(line2.y())
-    // .y0(y(0));
-
-
- //   var svg = d3.select("#first > svg > g")
 
     if(num == 1){
-      // console.log("NUM 1");
       $("#first > svg > g .line").remove();
       $("#first > svg > g .one.dot").remove();
       svg.append("path")
@@ -289,7 +264,6 @@ function add2Graph(q, num){
       .attr("cx", line.x())
       .attr("cy", line.y())
       .attr("r", 3.5);
-      
     }
     else if(num == 2){
       $("#first > svg > g .line2").remove();
@@ -347,8 +321,27 @@ $("#go_one").click(function(){
 });
 
 $(window).resize(function(){
- 
+  if(graphCreated == true){
+    if(chart_w != $("#first").width()){
+      chart_w ==  $("#first").width();
+      newGraphYears();
+    }
+  }
+
 });
+// $("#first").on('resize',function( event, ui ){
+//   console.log("RESIZED");
+//   $("#first").empty();
+//   if(currQuery1 != ""){
+//     if(currQuery2 != ""){
+//       newGraph(currQuery1,1, currQuery2);
+//     }
+//     else{
+//       newGraph(currQuery1,1);
+//     }
+//   }
+// });
+
 
 $("#pos").change(function(){
   target = "";
