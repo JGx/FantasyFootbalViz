@@ -4,7 +4,6 @@ var currQuery1 = "";
 var currQuery2 = "";
 
 
-
 //D3 Graph variables
 var svg;
 var line;
@@ -86,7 +85,7 @@ function getDataPoints(player_data, p_code, years, data){
   return max_y;
 }
 
-function newGraph(q, num){
+function newGraph(q, num, q2){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
@@ -123,7 +122,7 @@ function newGraph(q, num){
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
-      var week_num = d.x % 17;
+      var week_num = ((d.x - 1) % 17) + 1;
       if(d.x <= 17){week_num = d.x;}
       return "<strong>Week:</strong> <span style='color:red'>" + week_num + "</span>";
     })
@@ -175,6 +174,35 @@ function newGraph(q, num){
     .attr("r", 3.5)
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide);
+
+   svg.selectAll("line.verticalGrid").data(x.ticks(data.length)).enter()
+     .append("line")
+     .attr(
+     {
+      "class":"horizontalGrid",
+      "x1" : function(d){ 
+            if(d%17 == 1 && d > 17){
+              return (x(d) + x(d-1))/2;
+            }
+            return null;
+      },
+      "x2" : function(d){ 
+            if(d%17 == 1 && d > 17){
+              return (x(d) + x(d-1))/2;
+            }
+            return null;
+      },
+      "y1" : height,
+      "y2" : 0,
+      "fill" : "none",
+      "shape-rendering" : "crispEdges",
+      "stroke" : "#666",
+      "stroke-width" : "1px",
+      "stroke-dasharray":("3, 3")
+    });
+
+
+
     // .on("mouseover",function(){
     //   // console.log("mouse over point");
     //   // console.log(d3.mouse(this)[0]);
@@ -193,6 +221,16 @@ function newGraph(q, num){
 
     graphCreated = true;
     addLegend(1, p_code);
+
+    //if a second line is needed
+    if(typeof q2 === "undefined"){ 
+      //No second line
+    }
+    else{
+      add2Graph(q2, 2)
+    }
+
+
   })
 }
 
@@ -300,14 +338,17 @@ $("#go_one").click(function(){
 
 
   $("#first").empty();
-  newGraph(currQuery1,1);
-  if(graphCreated && currQuery2 != ""){
-    // console.log("IN THE HOUSE");
-    add2Graph(currQuery2, 2);
+  if(currQuery2 != ""){
+    newGraph(currQuery1,1, currQuery2);
+  }
+  else{
+    newGraph(currQuery1,1);
   }
 });
 
-
+$(window).resize(function(){
+ 
+});
 
 $("#pos").change(function(){
   target = "";
