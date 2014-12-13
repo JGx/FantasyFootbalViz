@@ -20,12 +20,18 @@ $(document).ready(function(){
         change: function(event, ui){
 
           var years = $("#slider").slider("option","values");
-          yearsList = [];
+          newYearsList = [];
           for (y=years[0]; y<years[1]+1; y++){
-             yearsList.push(y);
+             newYearsList.push(y);
           }
+
           if(graphCreated){
-            newGraphYears();
+            if (yearsList.length!= newYearsList.length) {
+              yearsList = newYearsList;
+              newGraphYears();
+            };
+          } else{
+            yearsList = newYearsList;
           }
           // console.log("yearslist is",yearsList);
         },
