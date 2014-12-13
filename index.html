@@ -10,9 +10,9 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-<!-- Optional: Include the jQuery library -->
-<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<!-- Optional: Include the jQuery library -->
+	<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="metrics-graphics-1.0.0/js/metricsgraphics.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -21,28 +21,28 @@
 
 	<div class="container">
 		<div id = "player_select" class ="form-inline">
-		
-		<div class="input-group">
-			<input id="player_input_one" type="text" class="form-control" placeholder="Player 1"/>
-			<span class="input-group-btn">
-			<button id="go_one" type="submit"  class="btn btn-primary">
-                <i class="fa fa-area-chart "></i>
-            </button>
-        </span>
-           </div>
 
-            <div class="input-group">
-            	<input id="player_input_two" type="text" class="form-control" placeholder="Player 2"/>
-            	  <span class="input-group-btn">
-            	<button id="go_two" type="submit"  class="btn btn-danger">
-            		<i class="fa fa-area-chart "></i>
-            	</button>
-            </span>
+			<div class="input-group">
+				<input id="player_input_one" type="text" class="form-control" placeholder="Player 1"/>
+				<span class="input-group-btn">
+					<button id="go_one" type="submit"  class="btn btn-primary">
+						<i class="fa fa-area-chart "></i>
+					</button>
+				</span>
+			</div>
 
-            </div>
-            <!-- -->
+			<div class="input-group">
+				<input id="player_input_two" type="text" class="form-control" placeholder="Player 2"/>
+				<span class="input-group-btn">
+					<button id="go_two" type="submit"  class="btn btn-danger">
+						<i class="fa fa-area-chart "></i>
+					</button>
+				</span>
 
-            <!-- -->
+			</div>
+			<!-- -->
+
+			<!-- -->
 			<select id="pos" class="form-control">
 				<option value="all">ALL</option>
 				<option value="qb">QB</option>
@@ -78,6 +78,29 @@
 			<div id="key2" class="legendary"></div>
 			<div id="key2stats"></div>
 		</div>
+		<div class="col-xs-10">
+			<div class="data-display panel panel-default" style='display:none;'>
+				<div class="panel-heading">Week 10, 2014</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Points</th>
+						</tr>
+					</thead>
+					<tbody>
+			 			<tr class="player_1">
+							
+						</tr>
+						<tr class="player_2">
+							
+						</tr> 
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
 		<div id="chart_here"></div>
 		<div id="second" class="">
 			<div id="legend"></div>
