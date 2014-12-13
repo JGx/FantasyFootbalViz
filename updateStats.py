@@ -57,15 +57,44 @@ def getAllPlayerData(full_name, abbrev_name):
 	plyrstats.addSeasons(abbrev_name,'all', 2009, 2014)
 	plyrstats.write('player_data/' + str('_'.join(names)) + ".json")
 
-# text_file = open("player_list.txt", "r")
-json_data=open('playersHash.json')
-data = json.load(json_data)
-print data
-isLastPlayer = False
-for player in data:
-	print "Importing: " + player[0]
-	getAllPlayerData(player[0], player[1])
-	print "Finished Importing: " + player[0]
+
+stat = 'all'
+game = nflgame.games(2014,week=14)
+players = nflgame.combine_game_stats(game)
+player = players.name('T.Brady')
+
+
+playerStats = player.stats
+week_obj = {'week':str(14)}
+if(stat == 'all'):
+	for y in playerStats:
+		week_obj[y] = playerStats[y]
+	week_obj['active'] = 'true'
+	print week_obj
+else:
+	print week_obj
+
+modified = open('modified.json','w') 
+jsonf = open('player_data/Tom_Brady.json','r+w') 
+currjson = json.load(jsonf)
+for i in xrange(len(currjson['T.Brady']['2014'])):
+	if currjson['T.Brady']['2014'][i]['week'] == "14":
+		currjson['T.Brady']['2014'].pop(i)
+
+currjson['T.Brady']['2014'].append(week_obj)
+modified.write(json.dumps(currjson))
+modified.close()
+
+
+
+
+jsonf.close()
+
+
+
+
+
+
 
 
 
