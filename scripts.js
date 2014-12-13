@@ -2,6 +2,10 @@ var graphCreated = false;
 var yearsList = [];
 var currQuery1 = "";
 var currQuery2 = "";
+var x;
+var y;
+var player1_data;
+var p1pcode;
 
 
 //D3 Graph variables
@@ -28,7 +32,7 @@ $(document).ready(function(){
           if(graphCreated){
             if (yearsList.length!= newYearsList.length) {
               yearsList = newYearsList;
-              newGraphYears();
+              newGraphYears(); 
             };
           } else{
             yearsList = newYearsList;
@@ -108,11 +112,11 @@ function newGraph(q, num, q2){
 
 
     // console.log("YOOOOO", data[data.length -1].x);
-    var x = d3.scale.linear()
+    x = d3.scale.linear()
     .domain([1,data[data.length -1].x])
     .range([10, width]);
 
-    var y = d3.scale.linear()
+    y = d3.scale.linear()
     .domain([0,Math.ceil(max_y/50)*50])
     .range([height, 0]);
 
@@ -208,22 +212,33 @@ function newGraph(q, num, q2){
     });
 
 
+    svg.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mousemove", mouseover);
 
-    // .on("mouseover",function(){
-    //   // console.log("mouse over point");
-    //   // console.log(d3.mouse(this)[0]);
-    //   var x0 = Math.round(x.invert(d3.mouse(this)[0]));
-    //   // console.log("x0 is",x0);
-    //   pcode = Object.keys(player_data)[0];
-    //   //need to know exact year
-    //   var startingYear = yearsList[0];
-    //   var addYear = Math.floor( Math.abs(x0 -1)  / 17);
-    //   var actualYear = startingYear + addYear;
-    //   // console.log("Year is ",actualYear);
-    //   i = player_data[pcode][actualYear][((x0-1) % 17)]['passing_yds'];
-    //   // console.log("passing yards is",i);
+    function mouseover(){
+      // console.log(d3.mouse(this)[0]);
+      var x0 = Math.round(x.invert(d3.mouse(this)[0]));
       
-    // });
+      pcode = Object.keys(player_data)[0];
+      var startingYear = yearsList[0];
+      var addYear = Math.floor( Math.abs(x0 -1)  / 17);
+      var actualYear = startingYear + addYear;
+
+      //check if data exists
+      //if not, print a message
+      var week = ((x0-1) % 17);
+      if(player_data[pcode][actualYear][week]['active']){
+        i = player_data[pcode][actualYear][week]['passing_yds'];
+        $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
+      }
+
+      //assign to the global variable
+      player1_data = player_data;
+      p1pcode = pcode;
+    }
 
     graphCreated = true;
     addLegend(1, p_code);
@@ -288,6 +303,40 @@ function add2Graph(q, num){
             addLegend(2, p_code);
     }
 
+    svg.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mousemove", mouseover);
+
+    function mouseover(){
+      // console.log(d3.mouse(this)[0]);
+      var x0 = Math.round(x.invert(d3.mouse(this)[0]));
+      
+      pcode = Object.keys(player_data)[0];
+      var startingYear = yearsList[0];
+      var addYear = Math.floor( Math.abs(x0 -1)  / 17);
+      var actualYear = startingYear + addYear;
+
+
+      console.log("PLAYER 1 is",player1_data);
+      console.log("P1 PCODE IS", p1pcode);
+      //check if data exists
+      //if not, print a message
+
+      var week = ((x0-1) % 17);
+      if(player_data[pcode][actualYear][week]['active']){
+        i = player_data[pcode][actualYear][week]['passing_yds'];
+        $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
+      }
+
+      //check player 1
+      
+      if(player1_data[p1pcode][actualYear][week]['active']){
+        i = player1_data[p1pcode][actualYear][week]['passing_yds'];
+        $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
+    }
+}
   })
 }
 

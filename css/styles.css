@@ -23,6 +23,11 @@
 
 
 /* GRAPH STYLES*/
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
 .axis path, .axis line {
 	fill: none;
 	stroke: #000;
