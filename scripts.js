@@ -5,6 +5,7 @@ var currQuery2 = "";
 var x;
 var y;
 var player1_data;
+var p1fan_data;
 var p1pcode;
 
 
@@ -99,7 +100,7 @@ function newGraph(q, num, q2){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
-
+     p1pcode = Object.keys(player_data)[0];
 
     //var data = [];
    // var max_y  = getDataPoints(player_data, p_code, yearsList, data);
@@ -108,6 +109,7 @@ function newGraph(q, num, q2){
 var max_y;
     //var data = 
     get_fan_data(num, function(data, max_y){
+      p1fan_data = data;
    // while (data.length == 0) console.log(data);
    //   console.log(data);
    //   max_y = find_max_fan(data);
@@ -131,7 +133,7 @@ var max_y;
     .range([10, width]);
 
     y = d3.scale.linear()
-    .domain([0,Math.ceil(max_y/50)*50])
+    .domain([0,Math.ceil(max_y/5)*5])
 
     .range([height, 0]);
 
@@ -245,12 +247,12 @@ var max_y;
       //check if data exists
       //if not, print a message
       var week = ((x0-1) % 17);
-      if(player_data[pcode][actualYear][week]['active']){
-        i = player_data[pcode][actualYear][week]['passing_yds'];
+     // if(player_data[pcode][actualYear][week]['active']){
+       // i = player_data[pcode][actualYear][week]['passing_yds'];
         i = data[x0].y;
         tableAppend(actualYear, week+1, 1, pcode, i);
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
-      }
+   //   }
 
       //assign to the global variable
       player1_data = player_data;
@@ -344,23 +346,31 @@ function add2Graph(q, num){
       console.log("P1 PCODE IS", p1pcode);
       //check if data exists
       //if not, print a message
+      console.log(x0);
 
-      var week = ((x0-1) % 17);
-      if(player_data[pcode][actualYear][week]['active']){
+      var week = ((x0) % 17);
+      console.log(week);
+     // if(player_data[pcode][actualYear][week]['active']){
+    //  if (series[x0-1].y != null){
       //  i = player_data[pcode][actualYear][week]['passing_yds'];
-        i = series[x0].y;
-        tableAppend(actualYear, week+1, 2, pcode, i)
+        i = series[x0-1].y;
+        tableAppend(actualYear, week, 2, pcode, i)
         $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
-      }
+    //  }
 
       //check player 1
       
-      if(player1_data[p1pcode][actualYear][week]['active']){
+     // if(player1_data[p1pcode][actualYear][week]['active']){
+     // if (p1fan_data[x0-1].y != null){
     //    i = player1_data[p1pcode][actualYear][week]['passing_yds'];
-         i = series[x0].y;
-        tableAppend(actualYear, week+1, 1, p1pcode, i)
+        //console.log(player1_data);
+         i = p1fan_data[x0-1].y;
+      // } else i = "Did Not Play"
+
+        tableAppend(actualYear, week, 1, p1pcode, i)
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
-      }
+      
+      
     }
   })
 });
@@ -536,7 +546,8 @@ function addLegend(line_num, name){
   //              for (var cat in Object.keys(player_data[p_code][2009][week])) {
     //                fan_data['2009'][week] += (player_data[p_code][2009][week][cat] * lookup_data[cat]);
       //          }
-      if (!(player_data[p_code][y][week]['active'] == false)){
+      if (!(player_data[p_code][y][week]['active'] == 'false')){
+      //  if (! this_week == 0){
         fan_data.push({ 'x' : my_week, 'y' : this_week });
       } else fan_data.push({ 'x' : my_week, 'y' : null });
       if (this_week > max) max = this_week;
