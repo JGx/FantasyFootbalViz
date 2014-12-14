@@ -478,6 +478,7 @@ function addLegend(line_num, name){
 
   function tableAppend(season, week, player_num, player_name, points){
     var panel_head = "Week "+ week +", " + season;
+    points = parseFloat(points).toFixed(2);
     var player_row = '<td>'+player_name+'</td> <td>'+points+'</td>';
     if( $('.data-display .panel-heading').text() != panel_head){
       $('.data-display .panel-heading').text(panel_head);
