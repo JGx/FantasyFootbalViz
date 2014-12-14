@@ -90,9 +90,20 @@ function newGraph(q, num, q2){
     if (num == 1) p_name = $("#player_input_one").val();
     else p_name = $("#player_input_two").val();
 
-    p_code = Object.keys(player_data)[0]
-    var data = [];
-    var max_y  = getDataPoints(player_data, p_code, yearsList, data);
+
+    //var data = [];
+   // var max_y  = getDataPoints(player_data, p_code, yearsList, data);
+
+//    var data = [];
+    var max_y;
+    //var data = 
+    get_fan_data(num, function(data, max_y){
+   // while (data.length == 0) console.log(data);
+   //   console.log(data);
+   //   max_y = find_max_fan(data);
+   
+    //var max_y = find_max_fan(data);
+
     // console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
@@ -102,12 +113,13 @@ function newGraph(q, num, q2){
 
 
     // console.log("YOOOOO", data[data.length -1].x);
+    console.log(data);
     var x = d3.scale.linear()
     .domain([1,data[data.length -1].x])
     .range([10, width]);
 
     var y = d3.scale.linear()
-    .domain([0,Math.ceil(max_y/50)*50])
+    .domain([0,Math.ceil(max_y/5)*5])
     .range([height, 0]);
 
     var xAxis = d3.svg.axis()
@@ -232,7 +244,8 @@ function newGraph(q, num, q2){
     }
 
 
-  })
+  });
+});
 }
 
 
@@ -240,11 +253,14 @@ function newGraph(q, num, q2){
 function add2Graph(q, num){
   d3.json(q,function(player_data){
   
-    if (num == 1) p_name = $("#player_input_one").val();
-    else p_name = $("#player_input_two").val();
-    p_code = Object.keys(player_data)[0]
-    var series = [];
-    var max_y  = getDataPoints(player_data, p_code, yearsList, series);
+    if (num == 1) p_name = $("#player_input_one").val().slice(0,-3);
+    else p_name = $("#player_input_two").val().slice(0,-3);
+   // p_code = Object.keys(player_data)[0]
+    //var series = [];
+    //var max_y  = getDataPoints(player_data, p_code, yearsList, series);
+    var series = get_fan_data(num, function(series, max_y){
+    //var max_y = find_max_fan(series);
+
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
@@ -283,13 +299,16 @@ function add2Graph(q, num){
     }
 
   })
+});
 }
 
 
 $("#go_two").click(function(){
   // console.log("Player 2 click");
-  if ($("#pos").val() == "all") { currQuery2 = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
-  else { currQuery2 = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
+  //if ($("#pos").val() == "all") { 
+    currQuery2 = "player_data/" + $("#player_input_two").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json";
+    // }
+  //else { currQuery2 = "player_data/" + $("#player_input_two").val().replace(" ","").split(" ").join("_") + ".json"; }
 
   $("#second").empty();
   if(!graphCreated){
@@ -304,11 +323,12 @@ $("#go_two").click(function(){
 
 current_data = null;
 $("#go_one").click(function(){
+  find_image();
 
-    get_fan_data();
+  //  get_fan_data();
 
-  if ($("#pos").val() == "all") { currQuery1 = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
-  else { currQuery1 = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
+currQuery1 = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
+  //else { currQuery1 = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
 
 
   $("#first").empty();
@@ -390,39 +410,88 @@ function newGraphYears(){
   }
 }
 
-function get_fan_data(){
+function get_fan_data(num, callback){
     fan_data = [];
-    if ($("#pos").val() == "all") { query = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; }
-    else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
+    max = 0;
+  //  if ($("#pos").val() == "all") { 
+     if(num == 1) nm = "#player_input_one";
+     else nm = "#player_input_two";
+      query = "player_data/" + $(nm).val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
+      //}
+  //  else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
     d3.json(query,function(player_data){
         d3.json("points_lookup.json", function(lookup_data){
+          p_code = Object.keys(player_data)[0];
            // fan_data[2009] = []
            // console.log(lookup_data);
-           my_week = 0;
-            for (var week in player_data[p_code][2013]){
-                if(player_data[p_code][2013][week]['week'] > 0 && player_data[p_code][2013][week]['week'] < 18){
-                fan_data[my_week] = 0;
+           years = ['2009','2010','2011','2012', '2013', '2014'];
+           my_week = 1;
+           for (var year in years) {
+           // fan_data = [];
+            this_week = 0;
+           
+           var y = parseInt(years[year]);
+           //console.log(years[y]);
+            for (var week in player_data[p_code][y]){
+               // fan_data[years[year]][my_week] = 0;
+                //console.log(player_data[p_code])
+                if(player_data[p_code][y][week]['week'] > 0 && player_data[p_code][y][week]['week'] < 18){
+                  console.log("here")
+                //fan_data[years[year]][my_week] = 0;
                 // console.log(player_data[p_code][2013][week]);
                 //fan_data[player_data[p_code][2009][week]['week']] = 0;
-                for (var cat in player_data[p_code][2013][week]){
+                for (var cat in player_data[p_code][y][week]){
                     // console.log(player_data[p_code][2013][week]['week']);
                     // console.log(lookup_data);
                     if (lookup_data[cat] != null && cat != 'week'){
                         // console.log(cat, player_data[p_code][2013][week][cat], parseFloat(lookup_data[cat]));
 
-                        fan_data[my_week] += (lookup_data[cat] * player_data[p_code][2013][week][cat]);
+                        //fan_data[years[year]][my_week] 
+                        this_week += (lookup_data[cat] * player_data[p_code][y][week][cat]);
                     }
                 }
+              
+               
+   //             my_week++;
             }
 
 //                fan_data[2009][week] = 0;
   //              for (var cat in Object.keys(player_data[p_code][2009][week])) {
     //                fan_data['2009'][week] += (player_data[p_code][2009][week][cat] * lookup_data[cat]);
       //          }
+      if (!(player_data[p_code][y][week]['active'] == false)){
+        fan_data.push({ 'x' : my_week, 'y' : this_week });
+      }
+        if (this_week > max) max = this_week;
+       this_week = 0;
                 my_week++;
             }
-            // console.log(fan_data);
+          }
+      //       console.log(fan_data);
+        callback(fan_data, max);
         })
     });
+
+}
+
+function find_max_fan(arr){
+  max = 0;
+  for (i in arr){
+    if (arr[i]['y'] > max) max = arr[i]['y'];
+  }
+  return max;
+}
+
+function find_image(){
+ accountKey = Base64.encode(":1326ZuD4vgsXUuOPy1B68m3A9B9w5fun0ddmpWM/1WU");
+  query = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27Peyton%20Manning%27&Options=%27json%27"// + encodeURIComponent("Appid=1326ZuD4vgsXUuOPy1B68m3A9B9w5fun0ddmpWM/1WU");
+ 
+  //accountKeyBytes = Base64.encodeBase64((accountKey + ":" + accountKey).getBytes());      
+  //accountKeyEnc = new String(accountKeyBytes);
+
+  $.ajax({
+    url: query,
+    headers : { "Authorization" : "Basic " + accountKey}
+  }).done(function(data,x,y,z){ console.log(z); });
 }
 

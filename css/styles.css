@@ -1,4 +1,15 @@
+#bg {
+  left : 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+    opacity : .1;
 
+
+  position: absolute;
+  background-image: url("../peyton.jpg");
+  background-size: cover;
+}
 
 /*Player Select Styles*/
 
