@@ -478,7 +478,7 @@ function addLegend(line_num, name){
   var target;
   if(line_num == 1){target = $('#sidebar #key1')}
     else if(line_num == 2){target = $('#sidebar #key2')}
-      target.html('<p>'+name +'</p>');
+      target.html(name);
   }
 
   function newGraphYears(){

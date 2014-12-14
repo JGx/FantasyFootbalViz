@@ -171,3 +171,18 @@ background-color: rgba(255,0,0,.5);
 .data-display .table{
 	table-layout: fixed;
 }
+
+#sidebar ul{
+	list-style: none;
+	padding-left: 0px;
+}
+#sidebar ul li:before {
+    content: "■";
+    font-size: 2em;
+}
+#sidebar ul .key_1:before {
+ color: #4682B4; 
+}
+#sidebar ul .key_2:before {
+ color: red; 
+}
