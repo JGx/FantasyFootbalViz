@@ -247,7 +247,7 @@ var max_y;
       var week = ((x0-1) % 17);
       if(player_data[pcode][actualYear][week]['active']){
         i = player_data[pcode][actualYear][week]['passing_yds'];
-        i = data[week].y;
+        i = data[x0].y;
         tableAppend(actualYear, week+1, 1, pcode, i);
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
       }
@@ -348,7 +348,7 @@ function add2Graph(q, num){
       var week = ((x0-1) % 17);
       if(player_data[pcode][actualYear][week]['active']){
         i = player_data[pcode][actualYear][week]['passing_yds'];
-        i = series[week].y;
+        i = series[x0].y;
         tableAppend(actualYear, week+1, 2, pcode, i)
         $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
       }
@@ -357,7 +357,7 @@ function add2Graph(q, num){
       
       if(player1_data[p1pcode][actualYear][week]['active']){
         i = player1_data[p1pcode][actualYear][week]['passing_yds'];
-         i = series[week].y;
+         i = series[x0].y;
         tableAppend(actualYear, week, 1, p1pcode, i)
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
       }
