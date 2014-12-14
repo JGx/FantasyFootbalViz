@@ -500,13 +500,13 @@ function addLegend(line_num, name){
       p_code = Object.keys(player_data)[0];
            // fan_data[2009] = []
            // console.log(lookup_data);
-           years = ['2009','2010','2011','2012', '2013', '2014'];
+           //years = ['2009','2010','2011','2012', '2013', '2014'];
            my_week = 1;
-           for (var year in years) {
+           for (var year in yearsList) {
            // fan_data = [];
            this_week = 0;
            
-           var y = parseInt(years[year]);
+           var y = yearsList[year];
            //console.log(years[y]);
            for (var week in player_data[p_code][y]){
                // fan_data[years[year]][my_week] = 0;
