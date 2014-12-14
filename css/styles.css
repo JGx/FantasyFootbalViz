@@ -2,13 +2,14 @@
   left : 0px;
   right: 0px;
   top: 0px;
-  bottom: 0px;
+  bottom: -20px;
     opacity : .15;
 
-
+  z-index: -50;
   position: absolute;
   background-image: url("../peyton.jpg");
-  background-size: cover;
+  background-size:  100% auto;
+  background-repeat: repeat;
 }
 
 /*Player Select Styles*/
@@ -30,6 +31,8 @@
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
 }
+
+
 
 
 

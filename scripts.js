@@ -8,6 +8,7 @@ var player1_data;
 var p1fan_data;
 var p1pcode;
 var avg1, avg2;
+var max_max = 0;
 
 
 //D3 Graph variables
@@ -110,6 +111,8 @@ function newGraph(q, num, q2){
 var max_y;
     //var data = 
     get_fan_data(num, function(data, max_y){
+      if (max_max > max_y) max_y = max_max;
+      else max_max = max_y;
       p1fan_data = data;
            //   avg1 = find_avg_fan(data);
         $('#sidebar #key1stats').html('<h1>'+find_avg_fan(data).toFixed(2)+"</h1>");
@@ -291,6 +294,8 @@ function add2Graph(q, num){
     //var series = [];
     //var max_y  = getDataPoints(player_data, p_code, yearsList, series);
     var series = get_fan_data(num, function(series, max_y){
+      if (max_max > max_y) max_y = max_max;
+      else max_max = max_y;
         $('#sidebar #key2stats').html('<h1>'+find_avg_fan(series).toFixed(2)+'</h1>');
     //var max_y = find_max_fan(series);
 
