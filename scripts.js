@@ -7,6 +7,7 @@ var y;
 var player1_data;
 var p1fan_data;
 var p1pcode;
+var avg1, avg2;
 
 
 //D3 Graph variables
@@ -110,6 +111,8 @@ var max_y;
     //var data = 
     get_fan_data(num, function(data, max_y){
       p1fan_data = data;
+           //   avg1 = find_avg_fan(data);
+        $('#sidebar #key1stats').html('<h1>'+find_avg_fan(data).toFixed(2)+"</h1>");
    // while (data.length == 0) console.log(data);
    //   console.log(data);
    //   max_y = find_max_fan(data);
@@ -251,7 +254,8 @@ var max_y;
        // i = player_data[pcode][actualYear][week]['passing_yds'];
         i = data[x0].y;
         tableAppend(actualYear, week+1, 1, pcode, i);
-        $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
+
+       // $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
    //   }
 
       //assign to the global variable
@@ -287,6 +291,7 @@ function add2Graph(q, num){
     //var series = [];
     //var max_y  = getDataPoints(player_data, p_code, yearsList, series);
     var series = get_fan_data(num, function(series, max_y){
+        $('#sidebar #key2stats').html('<h1>'+find_avg_fan(series).toFixed(2)+'</h1>');
     //var max_y = find_max_fan(series);
 
 
@@ -355,7 +360,7 @@ function add2Graph(q, num){
       //  i = player_data[pcode][actualYear][week]['passing_yds'];
         i = series[x0-1].y;
         tableAppend(actualYear, week, 2, pcode, i)
-        $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
+     //   $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
     //  }
 
       //check player 1
@@ -368,7 +373,7 @@ function add2Graph(q, num){
       // } else i = "Did Not Play"
 
         tableAppend(actualYear, week, 1, p1pcode, i)
-        $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
+      //  $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
       
       
     }
@@ -564,6 +569,20 @@ function addLegend(line_num, name){
       callback(fan_data, max);
     })
 });
+
+}
+
+function find_avg_fan(arr){
+  total = 0;
+  count = 0;
+  for (i in arr){
+    if (arr[i]['y'] != null){
+      total+= arr[i]['y'];
+      count ++;
+    }
+
+  }
+  return total / count;
 
 }
 
