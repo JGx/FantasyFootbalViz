@@ -119,7 +119,7 @@ var max_y;
     // console.log(data);
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = $('#first').width() - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 400 - margin.top - margin.bottom;
     console.log("New Graph Width: " + width);
     console.log("New Graph Height: " + height);
 
@@ -488,6 +488,7 @@ function addLegend(line_num, name){
 
   function tableAppend(season, week, player_num, player_name, points){
     var panel_head = "Week "+ week +", " + season;
+    points = parseFloat(points).toFixed(2);
     var player_row = '<td>'+player_name+'</td> <td>'+points+'</td>';
     if( $('.data-display .panel-heading').text() != panel_head){
       $('.data-display .panel-heading').text(panel_head);
@@ -546,8 +547,10 @@ function addLegend(line_num, name){
   //              for (var cat in Object.keys(player_data[p_code][2009][week])) {
     //                fan_data['2009'][week] += (player_data[p_code][2009][week][cat] * lookup_data[cat]);
       //          }
+
       if (!(player_data[p_code][y][week]['active'] == 'false')){
       //  if (! this_week == 0){
+
         fan_data.push({ 'x' : my_week, 'y' : this_week });
       } else fan_data.push({ 'x' : my_week, 'y' : null });
       if (this_week > max) max = this_week;
