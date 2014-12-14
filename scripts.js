@@ -17,26 +17,26 @@ var chart_w;
 $(document).ready(function(){
 
   $(function() {
-      $( "#slider" ).slider({
-        min:2009,
-        max:2014,
-        range:true,
-        change: function(event, ui){
+    $( "#slider" ).slider({
+      min:2009,
+      max:2014,
+      range:true,
+      change: function(event, ui){
 
-          var years = $("#slider").slider("option","values");
-          newYearsList = [];
-          for (y=years[0]; y<years[1]+1; y++){
-             newYearsList.push(y);
-          }
+        var years = $("#slider").slider("option","values");
+        newYearsList = [];
+        for (y=years[0]; y<years[1]+1; y++){
+         newYearsList.push(y);
+       }
 
-          if(graphCreated){
-            if (yearsList.length!= newYearsList.length) {
-              yearsList = newYearsList;
-              newGraphYears(); 
-            };
-          } else{
-            yearsList = newYearsList;
-          }
+       if(graphCreated){
+        if (yearsList.length!= newYearsList.length) {
+          yearsList = newYearsList;
+          newGraphYears(); 
+        };
+      } else{
+        yearsList = newYearsList;
+      }
           // console.log("yearslist is",yearsList);
         },
       });
@@ -63,16 +63,16 @@ $(document).ready(function(){
     })});
 **/
 $(function(){
-   $.get("list_with_pos.txt", function(data){
-    player_list = data.split(",");
-    jQuery( "#player_input_one" ).autocomplete({
-      source: player_list
-    });
-    jQuery("#player_input_two").autocomplete({
-      source: player_list
-    });
-  })
- });
+ $.get("list_with_pos.txt", function(data){
+  player_list = data.split(",");
+  jQuery( "#player_input_one" ).autocomplete({
+    source: player_list
+  });
+  jQuery("#player_input_two").autocomplete({
+    source: player_list
+  });
+})
+});
 
 });
 
@@ -105,7 +105,7 @@ function newGraph(q, num, q2){
    // var max_y  = getDataPoints(player_data, p_code, yearsList, data);
 
 //    var data = [];
-    var max_y;
+var max_y;
     //var data = 
     get_fan_data(num, function(data, max_y){
    // while (data.length == 0) console.log(data);
@@ -165,11 +165,11 @@ function newGraph(q, num, q2){
     target = "#first";  
 
     svg = d3.select(target).append("svg")
-      .datum(data)
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .datum(data)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     svg.call(tip);
     // svg.append("path")
@@ -200,22 +200,22 @@ function newGraph(q, num, q2){
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide);
 
-   svg.selectAll("line.verticalGrid").data(x.ticks(data.length)).enter()
-     .append("line")
-     .attr(
-     {
+    svg.selectAll("line.verticalGrid").data(x.ticks(data.length)).enter()
+    .append("line")
+    .attr(
+    {
       "class":"horizontalGrid",
       "x1" : function(d){ 
-            if(d%17 == 1 && d > 17){
-              return (x(d) + x(d-1))/2;
-            }
-            return null;
+        if(d%17 == 1 && d > 17){
+          return (x(d) + x(d-1))/2;
+        }
+        return null;
       },
       "x2" : function(d){ 
-            if(d%17 == 1 && d > 17){
-              return (x(d) + x(d-1))/2;
-            }
-            return null;
+        if(d%17 == 1 && d > 17){
+          return (x(d) + x(d-1))/2;
+        }
+        return null;
       },
       "y1" : height,
       "y2" : 0,
@@ -228,10 +228,10 @@ function newGraph(q, num, q2){
 
 
     svg.append("rect")
-      .attr("class", "overlay")
-      .attr("width", width)
-      .attr("height", height)
-      .on("mousemove", mouseover);
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mousemove", mouseover);
 
     function mouseover(){
       // console.log(d3.mouse(this)[0]);
@@ -247,6 +247,7 @@ function newGraph(q, num, q2){
       var week = ((x0-1) % 17);
       if(player_data[pcode][actualYear][week]['active']){
         i = player_data[pcode][actualYear][week]['passing_yds'];
+        i = data[week].y;
         tableAppend(actualYear, week+1, 1, pcode, i);
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
       }
@@ -277,7 +278,7 @@ function newGraph(q, num, q2){
 
 function add2Graph(q, num){
   d3.json(q,function(player_data){
-  
+
     if (num == 1) p_name = $("#player_input_one").val().slice(0,-3);
     else p_name = $("#player_input_two").val().slice(0,-3);
    // p_code = Object.keys(player_data)[0]
@@ -313,21 +314,21 @@ function add2Graph(q, num){
       .attr("class", "line2")
       .attr("d", line(series));
 
-        svg.selectAll(".two .dot")
-        .data(series.filter(function(d) { return d.y; }))
-        .enter().append("circle")
-        .attr("class", "two dot")
-        .attr("cx", line.x())
-        .attr("cy", line.y())
-        .attr("r", 3.5);
-            addLegend(2, p_code);
+      svg.selectAll(".two .dot")
+      .data(series.filter(function(d) { return d.y; }))
+      .enter().append("circle")
+      .attr("class", "two dot")
+      .attr("cx", line.x())
+      .attr("cy", line.y())
+      .attr("r", 3.5);
+      addLegend(2, p_code);
     }
 
     svg.append("rect")
-      .attr("class", "overlay")
-      .attr("width", width)
-      .attr("height", height)
-      .on("mousemove", mouseover);
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mousemove", mouseover);
 
     function mouseover(){
       // console.log(d3.mouse(this)[0]);
@@ -347,6 +348,7 @@ function add2Graph(q, num){
       var week = ((x0-1) % 17);
       if(player_data[pcode][actualYear][week]['active']){
         i = player_data[pcode][actualYear][week]['passing_yds'];
+        i = series[week].y;
         tableAppend(actualYear, week+1, 2, pcode, i)
         $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
       }
@@ -355,10 +357,11 @@ function add2Graph(q, num){
       
       if(player1_data[p1pcode][actualYear][week]['active']){
         i = player1_data[p1pcode][actualYear][week]['passing_yds'];
-        tableAppend(actualYear, week+1, 1, p1pcode, i)
+         i = series[week].y;
+        tableAppend(actualYear, week, 1, p1pcode, i)
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
+      }
     }
-}
   })
 });
 }
@@ -388,7 +391,7 @@ $("#go_one").click(function(){
 
   //  get_fan_data();
 
-currQuery1 = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
+  currQuery1 = "player_data/" + $("#player_input_one").val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
   //else { currQuery1 = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
 
 
@@ -459,53 +462,53 @@ $("#pos").change(function(){
 function addLegend(line_num, name){
   var target;
   if(line_num == 1){target = $('#sidebar #key1')}
-  else if(line_num == 2){target = $('#sidebar #key2')}
-  target.html('<p>'+name +'</p>');
-}
-
-function newGraphYears(){
-  $("#first").empty();
-  newGraph(currQuery1,1);
-  if(currQuery2 != ""){
-    add2Graph(currQuery2, 2);
+    else if(line_num == 2){target = $('#sidebar #key2')}
+      target.html('<p>'+name +'</p>');
   }
-}
 
-
-function tableAppend(season, week, player_num, player_name, points){
-  var panel_head = "Week "+ week +", " + season;
-  var player_row = '<td>'+player_name+'</td> <td>'+points+'</td>';
-  if( $('.data-display .panel-heading').text() != panel_head){
-    $('.data-display .panel-heading').text(panel_head);
+  function newGraphYears(){
+    $("#first").empty();
+    newGraph(currQuery1,1);
+    if(currQuery2 != ""){
+      add2Graph(currQuery2, 2);
+    }
   }
-  $('.data-display .table tbody .player_'+player_num).html(player_row);
-  $('.data-display').show();
-}
 
-function get_fan_data(num, callback){
+
+  function tableAppend(season, week, player_num, player_name, points){
+    var panel_head = "Week "+ week +", " + season;
+    var player_row = '<td>'+player_name+'</td> <td>'+points+'</td>';
+    if( $('.data-display .panel-heading').text() != panel_head){
+      $('.data-display .panel-heading').text(panel_head);
+    }
+    $('.data-display .table tbody .player_'+player_num).html(player_row);
+    $('.data-display').show();
+  }
+
+  function get_fan_data(num, callback){
 
     fan_data = [];
     max = 0;
   //  if ($("#pos").val() == "all") { 
-     if(num == 1) nm = "#player_input_one";
-     else nm = "#player_input_two";
-      query = "player_data/" + $(nm).val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
+   if(num == 1) nm = "#player_input_one";
+   else nm = "#player_input_two";
+   query = "player_data/" + $(nm).val().slice(0,-3).replace(" ","").split(" ").join("_") + ".json"; 
       //}
   //  else { query = "player_data/" + $("#player_input_one").val().replace(" ","").split(" ").join("_") + ".json"; }
-    d3.json(query,function(player_data){
-        d3.json("points_lookup.json", function(lookup_data){
-          p_code = Object.keys(player_data)[0];
+  d3.json(query,function(player_data){
+    d3.json("points_lookup.json", function(lookup_data){
+      p_code = Object.keys(player_data)[0];
            // fan_data[2009] = []
            // console.log(lookup_data);
            years = ['2009','2010','2011','2012', '2013', '2014'];
            my_week = 1;
            for (var year in years) {
            // fan_data = [];
-            this_week = 0;
+           this_week = 0;
            
            var y = parseInt(years[year]);
            //console.log(years[y]);
-            for (var week in player_data[p_code][y]){
+           for (var week in player_data[p_code][y]){
                // fan_data[years[year]][my_week] = 0;
                 //console.log(player_data[p_code])
                 if(player_data[p_code][y][week]['week'] > 0 && player_data[p_code][y][week]['week'] < 18){
@@ -521,12 +524,12 @@ function get_fan_data(num, callback){
 
                         //fan_data[years[year]][my_week] 
                         this_week += (lookup_data[cat] * player_data[p_code][y][week][cat]);
+                      }
                     }
-                }
-              
-               
+
+
    //             my_week++;
-            }
+ }
 
 //                fan_data[2009][week] = 0;
   //              for (var cat in Object.keys(player_data[p_code][2009][week])) {
@@ -535,15 +538,15 @@ function get_fan_data(num, callback){
       if (!(player_data[p_code][y][week]['active'] == false)){
         fan_data.push({ 'x' : my_week, 'y' : this_week });
       }
-        if (this_week > max) max = this_week;
-       this_week = 0;
-                my_week++;
-            }
-          }
+      if (this_week > max) max = this_week;
+      this_week = 0;
+      my_week++;
+    }
+  }
       //       console.log(fan_data);
-        callback(fan_data, max);
-        })
-    });
+      callback(fan_data, max);
+    })
+});
 
 }
 
@@ -558,7 +561,7 @@ function find_max_fan(arr){
 function find_image(){
  accountKey = Base64.encode(":1326ZuD4vgsXUuOPy1B68m3A9B9w5fun0ddmpWM/1WU");
   query = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27Peyton%20Manning%27&Options=%27json%27"// + encodeURIComponent("Appid=1326ZuD4vgsXUuOPy1B68m3A9B9w5fun0ddmpWM/1WU");
- 
+
   //accountKeyBytes = Base64.encodeBase64((accountKey + ":" + accountKey).getBytes());      
   //accountKeyEnc = new String(accountKeyBytes);
 
