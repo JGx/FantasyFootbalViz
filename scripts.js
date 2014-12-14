@@ -347,7 +347,7 @@ function add2Graph(q, num){
 
       var week = ((x0-1) % 17);
       if(player_data[pcode][actualYear][week]['active']){
-        i = player_data[pcode][actualYear][week]['passing_yds'];
+      //  i = player_data[pcode][actualYear][week]['passing_yds'];
         i = series[x0].y;
         tableAppend(actualYear, week+1, 2, pcode, i)
         $('#sidebar #key2stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>');
@@ -356,9 +356,9 @@ function add2Graph(q, num){
       //check player 1
       
       if(player1_data[p1pcode][actualYear][week]['active']){
-        i = player1_data[p1pcode][actualYear][week]['passing_yds'];
+    //    i = player1_data[p1pcode][actualYear][week]['passing_yds'];
          i = series[x0].y;
-        tableAppend(actualYear, week, 1, p1pcode, i)
+        tableAppend(actualYear, week+1, 1, p1pcode, i)
         $('#sidebar #key1stats').html('<p>'+"Season "+actualYear+" Week "+week+" passing yards is"+i+'</p>'); 
       }
     }
@@ -468,10 +468,11 @@ function addLegend(line_num, name){
 
   function newGraphYears(){
     $("#first").empty();
-    newGraph(currQuery1,1);
+  
     if(currQuery2 != ""){
-      add2Graph(currQuery2, 2);
-    }
+        newGraph(currQuery1,1,currQuery2);
+   //   add2Graph(currQuery2, 2);
+    } else newGraph(currQuery1,1);
   }
 
 
@@ -537,7 +538,7 @@ function addLegend(line_num, name){
       //          }
       if (!(player_data[p_code][y][week]['active'] == false)){
         fan_data.push({ 'x' : my_week, 'y' : this_week });
-      }
+      } else fan_data.push({ 'x' : my_week, 'y' : null });
       if (this_week > max) max = this_week;
       this_week = 0;
       my_week++;
