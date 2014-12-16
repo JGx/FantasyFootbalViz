@@ -102,7 +102,9 @@ function getDataPoints(player_data, p_code, years, data){
 function formatWeek(x){
  //return ((x / 17) + 2009) + " Week " + ((x % 17) + 1)
 
-return parseInt((x / 17)) + yearsList[0];
+
+  res = parseInt((x / 17)) + yearsList[0];
+  if (res != 2015) return res;
 //return x + 2009;
 
  //return (x % 17) + 1;
@@ -210,7 +212,12 @@ console.log(yearsList);
     svg.append("g")
     .attr("class", "y axis")
     .call(yAxis);
-
+    svg.append("g")         
+        .attr("class", "grid")
+        .call(yAxis
+            .tickSize(-width, 0, 0)
+            .tickFormat("")
+        )
 
     svg.append("path")
     .attr("class", "line")
@@ -251,6 +258,8 @@ console.log(yearsList);
       "stroke-width" : "1px",
       "stroke-dasharray":("3, 3")
     });
+
+
 
 
     svg.append("rect")

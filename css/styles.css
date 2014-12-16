@@ -32,6 +32,15 @@
 	overflow-x: hidden;
 }
 
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.2;
+    z-index: 10000;
+}
+.grid path {
+      stroke-width: 0;
+}
+
 
 
 
