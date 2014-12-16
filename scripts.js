@@ -98,6 +98,17 @@ function getDataPoints(player_data, p_code, years, data){
   return max_y;
 }
 
+
+function formatWeek(x){
+ //return ((x / 17) + 2009) + " Week " + ((x % 17) + 1)
+
+return parseInt((x / 17)) + yearsList[0];
+//return x + 2009;
+
+ //return (x % 17) + 1;
+}
+
+
 function newGraph(q, num, q2){
   d3.json(q,function(player_data){
     if (num == 1) p_name = $("#player_input_one").val();
@@ -131,7 +142,7 @@ var max_y;
 
 
     // console.log("YOOOOO", data[data.length -1].x);
-
+console.log(yearsList);
     console.log(data);
 
     x = d3.scale.linear()
@@ -145,7 +156,14 @@ var max_y;
 
     var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom")
+  //  .tickValues()
+    .tickValues(d3.range(.5,yearsList[yearsList.length - 1] * 17,17))
+   // .ticks(yearsList.length + 2)
+    .tickFormat(formatWeek)
+    .tickSize(0);
+   // .tickValues(yearsList);
+    //.nice();
 
     var yAxis = d3.svg.axis()
     .scale(y)
