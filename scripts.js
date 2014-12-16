@@ -126,6 +126,7 @@ var max_y;
     get_fan_data(num, function(data, max_y){
       if (max_max > max_y) max_y = max_max;
       else max_max = max_y;
+      avg1 = find_avg_fan(data);
       p1fan_data = data;
            //   avg1 = find_avg_fan(data);
         $('#sidebar #key1stats').html('<h1>'+find_avg_fan(data).toFixed(2)+"</h1>");
@@ -258,8 +259,19 @@ console.log(yearsList);
       "stroke-width" : "1px",
       "stroke-dasharray":("3, 3")
     });
-
-
+console.log(avg1);
+console.log(max_max);
+console.log(y);
+    svg.append('line')
+    .attr({
+      "x1" : 0, // x() is your scaling function, 10 is the value where you want a line to be placed
+      "y1" : y(avg1), // height of your chart
+      "x2" : width, // same as x1 for a horizontal line
+      "y2": y(avg1), // height of your chart
+      "stroke" : '#4682B4',
+      "stroke-width" : "1px",
+      "stroke-dasharray" : ("3,3")
+});
 
 
     svg.append("rect")
@@ -323,6 +335,7 @@ function add2Graph(q, num){
     var series = get_fan_data(num, function(series, max_y){
       if (max_max > max_y) max_y = max_max;
       else max_max = max_y;
+      avg2 = find_avg_fan(series);
         $('#sidebar #key2stats').html('<h1>'+find_avg_fan(series).toFixed(2)+'</h1>');
     //var max_y = find_max_fan(series);
 
@@ -362,6 +375,16 @@ function add2Graph(q, num){
       .attr("r", 3.5);
       addLegend(2, p_code);
     }
+     svg.append('line')
+    .attr({
+      "x1" : 0, // x() is your scaling function, 10 is the value where you want a line to be placed
+      "y1" : y(avg2), // height of your chart
+      "x2" : width, // same as x1 for a horizontal line
+      "y2": y(avg2), // height of your chart
+      "stroke" : "red",
+      "stroke-width" : "1px",
+      "stroke-dasharray" : ("3,3")
+});
 
     svg.append("rect")
     .attr("class", "overlay")
