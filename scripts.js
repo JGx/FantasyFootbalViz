@@ -99,7 +99,7 @@ function getDataPoints(player_data, p_code, years, data){
 }
 
 
-function formatWeek(x){
+function formatYear(x){
  //return ((x / 17) + 2009) + " Week " + ((x % 17) + 1)
 
 
@@ -108,6 +108,11 @@ function formatWeek(x){
 //return x + 2009;
 
  //return (x % 17) + 1;
+}
+
+function formatWeek(x){
+
+  return "Wk: " + x ;
 }
 
 
@@ -157,16 +162,25 @@ console.log(yearsList);
 
     .range([height, 0]);
 
+
+if (yearsList.length > 1){
     var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
-  //  .tickValues()
+
     .tickValues(d3.range(.5,yearsList[yearsList.length - 1] * 17,17))
-   // .ticks(yearsList.length + 2)
-    .tickFormat(formatWeek)
+
+    .tickFormat(formatYear)
     .tickSize(0);
-   // .tickValues(yearsList);
-    //.nice();
+  } else {
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      .tickValues(d3.range(1,17,1))
+      .tickFormat(formatWeek);
+      //.tickSize(1);
+  }
+
 
     var yAxis = d3.svg.axis()
     .scale(y)
@@ -220,6 +234,22 @@ console.log(yearsList);
             .tickFormat("")
         )
 
+    if (yearsList.length == 1){
+      for (wk in d3.range(1,17,1)){
+      svg.append('line')
+    .attr({
+    "x1": x(wk), // x() is your scaling function, 10 is the value where you want a line to be placed
+    "y1": 0, // height of your chart
+    "x2": x(wk), // same as x1 for a horizontal line
+    "y2": height, // height of your chart
+    "fill" : "none",
+      "shape-rendering" : "crispEdges",
+      "stroke" : "lightgrey",//"#666",
+      "stroke-width" : "1px"
+    });
+}
+    }
+
     svg.append("path")
     .attr("class", "line")
     .attr("d", line);
@@ -255,9 +285,9 @@ console.log(yearsList);
       "y2" : 0,
       "fill" : "none",
       "shape-rendering" : "crispEdges",
-      "stroke" : "#666",
-      "stroke-width" : "1px",
-      "stroke-dasharray":("3, 3")
+      "stroke" : "lightgrey",//"#666",
+      "stroke-width" : "1px"//,
+    //  "stroke-dasharray":("3, 3")
     });
 console.log(avg1);
 console.log(max_max);
